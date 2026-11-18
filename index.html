@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CART3R REMOTE CAMERA</title>
+<style>
+body {
+  background:#080808;
+  color:white;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  padding:25px 15px;
+}
+h1 {color:#c00024;letter-spacing:3px}
+.card {
+  background:#171717;
+  border:1px solid #650016;
+  border-radius:15px;
+  padding:20px;
+  margin:20px auto;
+  max-width:420px;
+}
+button {
+  background:#a90020;
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:14px;
+  width:100%;
+  margin:7px 0;
+  font-size:16px;
+}
+input {
+  width:90%;
+  padding:12px;
+  background:#222;
+  color:white;
+  border:1px solid #900020;
+  border-radius:8px;
+}
+small {color:#aaa}
+</style>
+</head>
+<body>
+
+<h1>CART3R</h1>
+<p>REMOTE CAMERA SYSTEM</p>
+
+<div class="card">
+<h2>CONTROL CENTER</h2>
+<p>Maak een unieke kamer aan.</p>
+<button onclick="createRoom()">CREATE ROOM</button>
+<p id="room">Geen kamer aangemaakt</p>
+</div>
+
+<div class="card">
+<h2>CAMERA PHONE</h2>
+<p>Open deze link op de telefoon die de camera deelt.</p>
+<button onclick="openCamera()">START CAMERA SETUP</button>
+</div>
+
+<div class="card">
+<h2>VIEWER</h2>
+<p>Open de livebeelden op jouw telefoon.</p>
+<button onclick="openViewer()">OPEN LIVE VIEW</button>
+</div>
+
+<div class="card">
+<h2>ROOM CODE</h2>
+<input id="code" placeholder="Vul kamer code in">
+<button onclick="copyCode()">COPY ROOM CODE</button>
+</div>
+
+<script>
+let roomCode = "";
+
+function createRoom() {
+  roomCode = "CART3R-" +
+    Math.random().toString(36).substring(2,10).toUpperCase();
+  document.getElementById("room").innerText =
+    "ROOM CODE: " + roomCode;
+  document.getElementById("code").value = roomCode;
+}
+
+function openCamera() {
+  let code = document.getElementById("code").value.trim();
+  if (!code) return alert("Vul eerst een room code in.");
+  window.location.href =
+    "https://vdo.ninja/?push=" + encodeURIComponent(code);
+}
+
+function openViewer() {
+  let code = document.getElementById("code").value.trim();
+  if (!code) return alert("Vul eerst een room code in.");
+  window.location.href =
+    "https://vdo.ninja/?view=" + encodeURIComponent(code);
+}
+
+function copyCode() {
+  let code = document.getElementById("code").value;
+  if (!code) return alert("Maak eerst een kamer aan.");
+  navigator.clipboard.writeText(code)
+    .then(() => alert("Room code gekopieerd!"))
+    .catch(() => alert("Selecteer en kopieer de code handmatig."));
+}
+</script>
+
+</body>
+</html>
